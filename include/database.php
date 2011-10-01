@@ -1,5 +1,4 @@
 <?php
-if (!defined('BASEPATH')) exit('<h1>403 Forbidden</h1>');
 
 require_once 'config.php';
 
@@ -21,7 +20,7 @@ class Database {
 				$dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
 				self::$dbInstance = new PDO($dsn, DB_USER, DB_PASS);
 			} catch (PDOException $e) {
-				echo $e->getMessage();
+				echo 'Unable to establish a database connection.';
 			}
 		}
 		

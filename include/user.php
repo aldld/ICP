@@ -1,5 +1,4 @@
 <?php
-if (!defined('BASEPATH')) exit('<h1>403 Forbidden</h1>');
 
 /**
  * Class representing a user.
