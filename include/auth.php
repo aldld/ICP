@@ -29,9 +29,9 @@ class Auth {
 	 */
 	public static function createUser($username, $password, $email, $fullName, $cas) {
 		$data = array(
-			'username' => $username,
+			'username' => strtolower($username),
 			'password' => self::passwordHash($username, $password), // Hash password
-			'email'    => $email,
+			'email'    => $email, // Emails SHOULD be case-sensitive
 			'fullName' => $fullName,
 			'cas'      => $cas
 		);
@@ -47,14 +47,24 @@ class Auth {
 	 * Checks if a given username exists or not.
 	 */
 	public static function userExists($username) {
+		$data = array('username' => strtolower($username));
 		
+		$stmt = self::$db->prepare('SELECT 1 FROM user WHERE username=:username');
+		$stmt->execute($data);
+		
+		return $stmt->rowCount() >= 1;
 	}
 	
 	/*
 	 * Checks if a given email address is already in use.
 	 */
 	public static function emailInUse($email) {
+		$data = array('email' => $email);
 		
+		$stmt = self::$db->prepare('SELECT 1 FROM user WHERE email=:email');
+		$stmt->execute($data);
+		
+		return $stmt->rowCount() >= 1;
 	}
 	
 }

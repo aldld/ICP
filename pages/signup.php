@@ -70,8 +70,6 @@ if (isset($_POST['submit'])) {
 	?>
 	
 	<form action="<?php echo BASE_URL; ?>" method="post">
-		<p>Note: All fields are case-sensitive.</p>
-		
 		<p>
 			<label for="fullName">Full Name: </label>
 			<input type="text" name="fullName"
