@@ -2,6 +2,8 @@
 
 require_once 'include/database.php';
 
+session_start();
+
 class Auth {
 	
 	private static $db;
@@ -14,12 +16,28 @@ class Auth {
 		return isset($_SESSION['user']);
 	}
 	
+	/*
+	 * Checks the given username and password against the database.
+	 * Returns true on success, false on failure.
+	 */
 	public static function verifyUser($username, $password) {
+		$data = array(
+			'username' => strtolower($username),
+			'password' => self::passwordHash($username, $password)
+		);
 		
+		$stmt = self::$db->prepare('SELECT 1 FROM user WHERE username=:username AND password=:password');
+		$stmt->execute($data);
+		
+		return $stmt->rowCount() == 1;
 	}
 	
+	/*
+	 * Hashes a password for storage in the database, using the
+	 * given username as a hash.
+	 */
 	public static function passwordHash($username, $password) {
-		return sha1(sha1($username) . sha1($password));
+		return sha1(sha1(strtolower($username)) . sha1($password));
 	}
 	
 	/*

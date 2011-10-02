@@ -59,14 +59,18 @@ if (isset($_POST['submit'])) {
 	
 	<h1>Signup</h1>
 	
+	<p>Already registered?
+		<a href="<?php echo BASE_URL; ?>index.php?action=login">Click here to login.</a>
+	</p>
+	
 	<?php
-	echo '<ul>';
 	if (!empty($errors)) {
+		echo '<ul>';
 		foreach ($errors as $error) {
 			echo '<li>' . $error . '</li>';
 		}
+		echo '</ul>';
 	}
-	echo '</ul>';
 	?>
 	
 	<form action="<?php echo BASE_URL; ?>" method="post">
