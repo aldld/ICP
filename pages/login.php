@@ -1,6 +1,8 @@
 <?php
 // Login handler
 
+if (Auth::loggedIn()) header('Location: ' . BASE_URL);
+
 $errors = array();
 
 if (isset($_POST['submit'])) {
@@ -14,9 +16,9 @@ if (isset($_POST['submit'])) {
 		$password = $_POST['password'];
 		
 		// Make sure a valid username/password combination is given
-		if (Auth::verifyUser($username, $password)) {
-			// Successful login
-			$_SESSION['user'] = $username;
+		if (Auth::verifyUser($username, $password)) { // Successful login
+			// $_SESSION['user'] stores the ID of the current user
+			$_SESSION['user'] = Auth::getUserID($username);
 			
 			// Redirect to dashboard
 			header('Location: ' . BASE_URL);
@@ -69,6 +71,8 @@ if (isset($_POST['submit'])) {
 		</p>
 		
 	</form> 
+	
+	<p>Trouble logging in? Contact eric.bannatyne@gmail.com for assistance.</p>
 	
 </body>
 </html>

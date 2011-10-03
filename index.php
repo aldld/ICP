@@ -27,8 +27,6 @@ if (!Auth::loggedIn()) {
 	
 } else {
 	// User is logged in
-	echo 'You are logged in!';
-	
 	if (isset($_GET['action']))
 		loadPage($_GET['action']);
 	else

@@ -5,9 +5,11 @@
  */
 class User {
 	
+	public $id;
 	public $username;
-	public $fullname;
+	public $fullName;
 	public $email;
 	public $isInstructor = false;
+	public $cas;
 	
 }

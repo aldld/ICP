@@ -39,8 +39,7 @@ if (isset($_POST['submit'])) {
 		$cas      = isset($_POST['cas']);
 		
 		if (Auth::createUser($username, $password, $email, $fullName, $cas)) {
-			// TODO: Redirect to login page upon success
-			echo 'success!';
+			header('Location: ' . BASE_URL . 'index.php?action=login&msg=registered');
 		} else {
 			// Something went wrong.
 			$errors[] = 'Login failure. Contact eric.bannatyne@gmail for assistance.';
