@@ -1,5 +1,7 @@
 <?php
 require_once 'include/database.php';
+require_once 'include/format.php';
+
 $db = Database::getInstance();
 
 $user = Auth::getUser($_SESSION['user']);
@@ -21,36 +23,8 @@ if (isset($_POST['submit'])) {
 		$content = str_replace(htmlentities('<code>'), '</p><pre>', $content);
 		$content = str_replace(htmlentities('</code>'), '</pre><p>', $content);
 		
-		// Parse line breaks
-		$paragraphs = explode("\n", $content);
-		// Remove empty strings from $paragraphs
-		$i = 0;
-		$addParaTag = true;
-		while ($i < count($paragraphs)) {
-			//$paragraphs[$i] = trim($paragraphs[$i]);
-			if (empty($paragraphs[$i])) {
-				unset($paragraphs[$i]);
-				$paragraphs = array_values($paragraphs);
-			} else {
-				if (strpos($paragraphs[$i], '<pre>') !== false) {
-					$addParaTag = false;
-				}
-				
-				if (strpos($paragraphs[$i], '</pre>') !== false) {
-					$addParaTag == true;
-				}
-				
-				if ($addParaTag && $i != count($paragraphs) - 1) {
-					$paragraphs[$i] = $paragraphs[$i] . '</p><p>';
-				} else {
-					$paragraphs[$i] = $paragraphs[$i] . "\n";
-				}
-				$i++;
-			}
-		}
-		
-		$paragraphs = implode('', $paragraphs);
-		$content = '<p>' . $paragraphs . '</p>';
+		// Format content
+		$content = format($content);
 		
 		$data = array(
 			'title'   => $title,
