@@ -53,58 +53,99 @@ if (isset($_POST['submit'])) {
 <html>
 <head>
 	<title>Introduction to Computer Programming &ndash; Signup</title>
+	
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" />
 </head>
 <body>
 	
-	<h1>Signup</h1>
+	<div id="header">
+		<p>Already registered?
+			<a href="<?php echo BASE_URL; ?>index.php?action=login">Click here to login.</a>
+		</p>
+	</div>
 	
-	<p>Already registered?
-		<a href="<?php echo BASE_URL; ?>index.php?action=login">Click here to login.</a>
-	</p>
+	<div id="sidebar">
+		<h2>Welcome</h2>
+		
+		<p>This introductory programming course covers the use of the Python programming language as a tool
+		for solving problems. The course is aimed at people with little or no prior programming experience.</p>
+		
+		<p><a href="https://docs.google.com/viewer?a=v&pid=explorer&chrome=true&srcid=0Bzuha_iJwCLOZGNjOTkwZDItYTBhZS00MDViLWI4ZTUtZGI2YzJhMzc0OTg0&hl=en_US">
+			View the course outline.</a>
+		</p>
+	</div>
 	
-	<?php
-	if (!empty($errors)) {
-		echo '<ul>';
-		foreach ($errors as $error) {
-			echo '<li>' . $error . '</li>';
+	<div id="content">
+		<h2>Signup</h2>
+		
+		<?php
+		if (!empty($errors)) {
+			echo '<ul>';
+			foreach ($errors as $error) {
+				echo '<li>' . $error . '</li>';
+			}
+			echo '</ul>';
 		}
-		echo '</ul>';
-	}
-	?>
+		?>
+		
+		<form action="<?php echo BASE_URL; ?>" method="post">
+			<table>
+				<tr>
+					<td>
+						<label for="fullName">Full Name: </label>
+					</td>
+					<td>
+						<input type="text" name="fullName"
+							value="<?php echo isset($_POST['fullName']) ? $_POST['fullName'] : ''; ?>" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<label for="email">Email Address: </label>
+					</td>
+					<td>
+						<input type="text" name="email"
+							value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<label for="username">Username: </label>
+					</td>
+					<td>
+						<input type="text" name="username"
+							value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<label for="password">Password: </label>
+					</td>
+					<td>
+						<input type="password" name="password" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="width:200px;">
+						<label for="cas">Check here if you are taking this course for CAS: </label>
+					</td>
+					<td>
+						<input type="checkbox" name="cas" />
+					</td>
+				</tr>
+			
 	
-	<form action="<?php echo BASE_URL; ?>" method="post">
-		<p>
-			<label for="fullName">Full Name: </label>
-			<input type="text" name="fullName"
-				value="<?php echo isset($_POST['fullName']) ? $_POST['fullName'] : ''; ?>" />
-		</p>
-		
-		<p>
-			<label for="email">Email Address: </label>
-			<input type="text" name="email"
-				value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" />
-		</p>
-		
-		<p>
-			<label for="username">Username: </label>
-			<input type="text" name="username"
-				value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>" />
-		</p>
-		
-		<p>
-			<label for="password">Password: </label>
-			<input type="password" name="password" />
-		</p>
-		
-		<p>
-			<label for="cas">Check here if you are taking this course for CAS: </label>
-			<input type="checkbox" name="cas" />
-		</p>
-		
-		<p>
-			<input type="submit" name="submit" value="Submit" />
-		</p>
-	</form>
+			</table>
+			
+			<p>
+				<input type="submit" name="submit" value="Submit" />
+			</p>
+		</form>
+	</div>
 	
 </body>
 </html>

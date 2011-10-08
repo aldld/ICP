@@ -34,45 +34,71 @@ if (isset($_POST['submit'])) {
 <html>
 <head>
 	<title>Introduction to Computer Programming &ndash; Login</title>
+	
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" />
 </head>
 <body>
 	
-	<h1>Login</h1>
 	
-	<p>Don't have an account?
-		<a href="<?php echo BASE_URL; ?>">Click here to sign up.</a>
-	</p>
+	<div id="header">
+		<p>Don't have an account?
+			<a href="<?php echo BASE_URL; ?>">Click here to sign up.</a>
+		</p>
+	</div>
 	
-	<?php
-	if (!empty($errors)) {
-		echo '<ul>';
-		foreach ($errors as $error) {
-			echo '<li>' . $error . '</li>';
+	<div id="sidebar">
+		<h2>Welcome</h2>
+		
+		<p>This introductory programming course covers the use of the Python programming language as a tool
+		for solving problems. The course is aimed at people with little or no prior programming experience.</p>
+		
+		<p><a href="https://docs.google.com/viewer?a=v&pid=explorer&chrome=true&srcid=0Bzuha_iJwCLOZGNjOTkwZDItYTBhZS00MDViLWI4ZTUtZGI2YzJhMzc0OTg0&hl=en_US">
+			View the course outline.</a>
+		</p>
+	</div>
+	
+	<div id="content">
+		<h2>Login</h2>
+		
+		<?php
+		if (isset($_GET['msg']) && $_GET['msg'] == 'registered') {
+			echo '<p>Registration successful! You may now login.';
 		}
-		echo '</ul>';
-	}
-	?>
-	
-	
-	<form action="<?php echo BASE_URL; ?>index.php?action=login" method="post">
+		?>
 		
-		<p>
-			<label for="username">Username</label>
-			<input type="text" name="username" />
-		</p>
+		<?php
+		if (!empty($errors)) {
+			echo '<ul>';
+			foreach ($errors as $error) {
+				echo '<li>' . $error . '</li>';
+			}
+			echo '</ul>';
+		}
+		?>
 		
-		<p>
-			<label for="password">Password</label>
-			<input type="password" name="password" />
-		</p>
 		
-		<p>
-			<input type="submit" name="submit" value="Login" />
-		</p>
+		<form action="<?php echo BASE_URL; ?>index.php?action=login" method="post">
+			
+			<table>
+				<tr>
+					<td><label for="username">Username</label></td>
+					<td><input type="text" name="username" /></td>
+				</tr>
+			
+				<tr>
+					<td><label for="password">Password</label></td>
+					<td><input type="password" name="password" /></td>
+				</tr>
+			</table>
+			
+			<p>
+				<input type="submit" name="submit" value="Login" />
+			</p>
+			
+		</form>
 		
-	</form> 
-	
-	<p>Trouble logging in? Contact eric.bannatyne@gmail.com for assistance.</p>
+		<p>Trouble logging in? Contact eric.bannatyne@gmail.com for assistance.</p>
+	</div>
 	
 </body>
 </html>

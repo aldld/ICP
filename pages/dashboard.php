@@ -50,75 +50,100 @@ if (isset($_POST['submit'])) {
 <html>
 <head>
 	<title>Introduction to Computer Programming &ndash; Dashboard</title>
+	
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" />
 </head>
 <body>
 	
-	<h1>Dashboard</h1>
+	<div id="header">
+		<p>
+			<strong>Dashboard</strong> &ndash;
+			Logged in as <?php echo $user->fullName; ?>. 
+			<a href="<?php echo BASE_URL; ?>index.php?action=logout">Logout</a>
+		</p>
+	</div>
 	
-	<p>
-		Logged in as <?php echo $user->fullName; ?>. 
-		<a href="<?php echo BASE_URL; ?>index.php?action=logout">Logout</a>
-	</p>
+	<div id="sidebar">
+		<h2>Quick Links</h2>
+		<ul>
+			<li><a href="<?php echo BASE_URL; ?>index.php?action=video">Latest Video</a></li>
+			<li><a href="http://www.youtube.com/user/aldld">YouTube Channel</a></li>
+			<li><a href="https://docs.google.com/leaf?id=0Bzuha_iJwCLONjc4ODdlZTYtNTcyNC00NjMyLWI2Y2UtZTBkZjYzNWZhNzdm&hl=en_US">Google Docs</a></li>
+			<li><a href="<?php echo BASE_URL; ?>index.php?action=instructions">Instructions for submitting files</a></li>
+		</ul>
+		
+		<p><strong>Protip:</strong> To enter code snippets, use the &lt;code&gt; tags. For example:</p>
+		
+		&lt;code&gt;<br />
+		def someFunction(x, y):<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;doStuff(y)<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;while x &lt; f(y):<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print 'something'<br />
+		&lt;/code&gt;
+		
+		<p>Will display as:</p>
+		
+		<pre>
+def someFunction(x, y):
+    doStuff(y)
+    while x &lt; f(y):
+        print 'something'
+		</pre>
+		
+		
+	</div>
 	
-	<h2>Quick Links</h2>
-	<ul>
-		<li><a href="<?php echo BASE_URL; ?>index.php?action=video">Latest Video</a></li>
-		<li><a href="http://www.youtube.com/user/aldld">YouTube Channel</a></li>
-		<li><a href="https://docs.google.com/leaf?id=0Bzuha_iJwCLONjc4ODdlZTYtNTcyNC00NjMyLWI2Y2UtZTBkZjYzNWZhNzdm&hl=en_US">Google Docs</a></li>
-		<li><a href="<?php echo BASE_URL; ?>index.php?action=instructions">Instructions for submitting files</a></li>
-	</ul>
-	
-	<h2>Discussion</h2>
-	
-	<h3>Add New Post</h3>
-	
-	<?php
-	if (!empty($errors)) {
-		echo '<ul>';
-		foreach ($errors as $error) {
-			echo '<li>' . $error . '</li>';
+	<div id="content">
+		<h2>Discussion</h2>
+		
+		<h3>Add New Post</h3>
+		
+		<?php
+		if (!empty($errors)) {
+			echo '<ul>';
+			foreach ($errors as $error) {
+				echo '<li>' . $error . '</li>';
+			}
+			echo '</ul>';
 		}
-		echo '</ul>';
-	}
-	?>
-	
-	<form action="<?php echo BASE_URL; ?>index.php?action=dashboard" method="post">
+		?>
 		
-		<p>
-			<input type="text" name="title" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" />
-		</p>
+		<form action="<?php echo BASE_URL; ?>index.php?action=dashboard" method="post">
+			
+			<p>
+				<input type="text" name="title" size="30" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" />
+			</p>
+			
+			<p>
+				<textarea name="content" rows="10" cols="60"><?php if (isset($_POST['content'])) echo $_POST['content']; ?></textarea>
+			</p>
+			
+			<p>
+				<input type="submit" name="submit" value="Save" />
+			</p>
+			
+		</form>
 		
-		<p>
-			<textarea name="content" rows="7" cols="40"><?php if (isset($_POST['content'])) echo $_POST['content']; ?></textarea>
-		</p>
 		
-		<p>
-			<input type="submit" name="submit" value="Save" />
-		</p>
+		<h2>Current Discussions</h2>
+		<?php
+		$stmt = $db->prepare('SELECT id, title, content, author, date FROM post ORDER BY date DESC');
+		$stmt->execute();
 		
-	</form>
-	
-	<p>If you have any problems using this site please contact me at eric.bannatyne@gmail.com.</p>
-	
-	<?php
-	$stmt = $db->prepare('SELECT id, title, content, author, date FROM post ORDER BY date DESC');
-	$stmt->execute();
-	
-	if ($stmt->rowCount() > 0) {
-		$stmt->setFetchMode(PDO::FETCH_OBJ);
-		echo '<ul>';
-		while ($post = $stmt->fetch()) {
-			echo '<li><a href="' . BASE_URL . 'index.php?action=single&id=' . $post->id . '">';
-			echo $post->title;
-			echo '</a></li>';
+		if ($stmt->rowCount() > 0) {
+			$stmt->setFetchMode(PDO::FETCH_OBJ);
+			echo '<ul id="post-list">';
+			while ($post = $stmt->fetch()) {
+				echo '<li><a href="' . BASE_URL . 'index.php?action=single&id=' . $post->id . '">';
+				echo $post->title;
+				echo '</a></li>';
+			}
+			echo '</ul>';
+		} else {
+			echo '<p>No posts to display.</p>';
 		}
-		echo '</ul>';
-	} else {
-		echo '<p>No posts to display.</p>';
-	}
-	?>
-	
-	
+		?>
+	</div>
 	
 </body>
 </html>
